@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ContentLinter extends Vale
 {
-    public function lint($content, $identifier = 'lint'): array
+    public function lint($content, $identifier = 'lint', $returnHints = false): array
     {
         $fileName = "{$identifier}.html";
         $storagePath = "tmp/{$fileName}";
         Storage::disk('local')->put($storagePath, $content);
 
         $copyPath = $this->createLintableCopy($fileName);
-        $lints = $this->lintFile($copyPath, $identifier);
+        $lints = $this->lintFile($copyPath, $identifier, $returnHints);
         $this->deleteLintableCopy();
 
         Storage::disk('local')->delete($storagePath);

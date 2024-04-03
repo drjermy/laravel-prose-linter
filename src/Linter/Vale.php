@@ -101,7 +101,7 @@ class Vale
      *
      * @throws Exception
      */
-    public function lintFile($filePath, $textIdentifier): array|null
+    public function lintFile($filePath, $textIdentifier, $returnHints = false): array|null
     {
         $process = Process::fromShellCommandline(
             $this->valeExecutable.' --output=JSON '.$filePath
@@ -114,7 +114,12 @@ class Vale
         $result = json_decode($process->getOutput(), true);
 
         if (! empty($result)) {
-            return LintingResult::fromJsonOutput($textIdentifier ?? 'Text', $result)->toArray();
+            $result = LintingResult::fromJsonOutput($textIdentifier ?? 'Text', $result);
+            if ($returnHints === true) {
+                return $result->getHints();
+            } else {
+                return $result->toArray();
+            }
         }
         if (! is_array($result)) {
             throw new Exception('Invalid vale output: '.print_r($process->getOutput(), true));
