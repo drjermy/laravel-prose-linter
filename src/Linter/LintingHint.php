@@ -27,6 +27,8 @@ class LintingHint
     /**
      * @var string
      */
+    private string $match;
+
     private string $severity;
 
     /**
@@ -36,13 +38,14 @@ class LintingHint
      * @param  string  $message
      * @param  string  $severity
      */
-    public function __construct(string $libraryCheck, int $line, int $position, string $message, string $severity)
+    public function __construct(string $libraryCheck, int $line, int $position, string $message, string $severity, string $match)
     {
         $this->libraryCheck = $libraryCheck;
         $this->line = $line;
         $this->position = $position;
         $this->message = $message;
         $this->severity = $severity;
+        $this->match = $match;
     }
 
     /**
@@ -58,7 +61,8 @@ class LintingHint
             $hintData['Line'],
             $hintData['Span'][0],
             $hintData['Message'],
-            $hintData['Severity']
+            $hintData['Severity'],
+            $hintData['Match'],
         );
     }
 
@@ -73,6 +77,7 @@ class LintingHint
             'message' => $this->message,
             'severity' => $this->severity,
             'libraryCheck' => $this->libraryCheck,
+            'match' => $this->match,
         ];
     }
 
@@ -87,6 +92,7 @@ class LintingHint
             $this->message,
             $this->severity,
             $this->libraryCheck,
+            $this->match,
         ];
     }
 }
