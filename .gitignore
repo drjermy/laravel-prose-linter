@@ -3,3 +3,4 @@ bin/vale-ai/.vale.ini
 bin/vale-ai/styles
 .phpunit.cache/
 .idea
+.DS_Store
